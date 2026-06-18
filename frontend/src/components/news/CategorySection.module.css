@@ -1,0 +1,58 @@
+.section {
+  margin-bottom: 32px;
+  animation: fadeInUp 0.35s ease both;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--black);
+  position: relative;
+  padding-bottom: 6px;
+  display: inline-block;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--red);
+  border-radius: 2px;
+  animation: sweepIn 0.5s ease 0.1s forwards;
+}
+
+@keyframes sweepIn {
+  to { width: 100%; }
+}
+
+.moreBtn {
+  background: none;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border: 1px solid var(--red);
+  border-radius: 20px;
+  transition: background 0.15s, color 0.15s;
+}
+.moreBtn:hover { background: var(--red); color: #fff; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+}

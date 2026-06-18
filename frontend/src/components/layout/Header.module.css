@@ -1,0 +1,119 @@
+.header {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+/* top utility bar */
+.topBar {
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.topBarInner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 5px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date {
+  font-size: 11px;
+  color: #999;
+}
+
+.actions { display: flex; gap: 8px; align-items: center; }
+
+.darkBtn {
+  background: none;
+  border: 1px solid var(--border);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.darkBtn:hover { transform: scale(1.15); }
+
+.searchBtn {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.searchBtn:hover { border-color: var(--red); color: var(--red); }
+
+.adminBtn {
+  background: var(--red);
+  color: #fff;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.adminBtn:hover { background: var(--red-dark); }
+
+/* brand banner — image fills the space */
+.brand {
+  width: 100%;
+}
+
+.brandImg {
+  width: 100%;
+  height: clamp(130px, 13vw, 210px);
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+/* headline strip */
+.headlineStrip {
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-top: 1px solid #f0f0f0;
+}
+.headlineStrip::-webkit-scrollbar { display: none; }
+
+.headlineInner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+}
+
+.headline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #444;
+  font-weight: 500;
+  padding: 6px 16px 6px 0;
+  border-right: 1px solid #eee;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+.headline:last-child { border-right: none; margin-right: 0; }
+
+.bullet {
+  color: var(--red);
+  font-size: 7px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 540px) {
+  .topBarInner { padding-left: 12px; padding-right: 12px; }
+  .headlineInner { padding-left: 12px; padding-right: 12px; }
+}

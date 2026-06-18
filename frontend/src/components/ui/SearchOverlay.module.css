@@ -1,0 +1,82 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  z-index: 998;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 16px 16px;
+  animation: fadeInUp 0.2s ease;
+}
+
+.box {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 580px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.icon { font-size: 18px; }
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--black);
+  background: none;
+}
+
+.closeBtn {
+  background: none;
+  color: var(--gray);
+  font-size: 18px;
+  padding: 4px 8px;
+}
+.closeBtn:hover { color: var(--red); }
+
+.results {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.resultItem {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.resultItem:last-child { border-bottom: none; }
+.resultItem:hover { background: var(--bg); }
+
+.resultTitle {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--black);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.resultItem:hover .resultTitle { color: var(--red); }
+
+.resultMeta {
+  font-size: 12px;
+  color: var(--gray-light);
+}
+
+.empty {
+  padding: 24px 16px;
+  color: var(--gray);
+  font-size: 14px;
+}

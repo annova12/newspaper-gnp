@@ -1,0 +1,65 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 24px;
+  padding: 24px 0 40px;
+}
+
+.main { min-width: 0; } /* prevents grid blowout */
+
+.section { margin-bottom: 32px; }
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--black);
+  border-left: 4px solid var(--red);
+  padding-left: 10px;
+  margin-bottom: 16px;
+}
+
+/* Featured grid — first card spans full width on small screens */
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 16px;
+}
+
+.empty {
+  color: var(--gray);
+  font-size: 14px;
+  padding: 24px 0;
+}
+
+/* Article reading layout */
+.articleLayout {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 24px;
+  padding: 24px 0 40px;
+}
+
+.articleMain { min-width: 0; }
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .layout,
+  .articleLayout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Hide sidebar on mobile — Sidebar component is still mounted but
+     we rely on the grid collapsing; add display:none in Sidebar.module.css
+     for mobile if you want to fully hide it */
+}
+
+@media (max-width: 600px) {
+  .featuredGrid {
+    grid-template-columns: 1fr;
+  }
+  .layout,
+  .articleLayout {
+    padding: 16px 0 32px;
+  }
+}

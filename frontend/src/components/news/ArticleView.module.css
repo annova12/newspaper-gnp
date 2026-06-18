@@ -1,0 +1,121 @@
+/* reading progress bar — fixed at very top */
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--red);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+.wrap {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeInUp 0.25s ease;
+}
+
+.backBtn {
+  background: none;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.15s;
+}
+.backBtn:hover { opacity: 0.75; }
+
+.catLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 12px;
+  color: var(--black);
+}
+
+.meta {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  color: var(--gray-light);
+  flex-wrap: wrap;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.thumbnail {
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+
+.content {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--black);
+}
+
+/* share bar */
+.shareBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.shareLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray);
+}
+
+.waBtn {
+  background: #25D366;
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.waBtn:hover { opacity: 0.85; }
+
+.copyBtn {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--gray);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.copyBtn:hover { border-color: var(--red); color: var(--red); }
+
+@media (max-width: 600px) {
+  .wrap { padding: 16px; }
+}

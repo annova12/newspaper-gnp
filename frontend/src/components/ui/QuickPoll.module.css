@@ -1,0 +1,84 @@
+.card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+  border-bottom: 2px solid var(--red);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.question {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.options { display: flex; flex-direction: column; gap: 8px; }
+
+.optBtn {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+}
+.optBtn:hover {
+  border-color: var(--red);
+  background: #fff5f5;
+  transform: translateX(4px);
+}
+.optBtn:active { transform: scale(0.98); }
+
+/* result bars */
+.result { margin-bottom: 4px; }
+
+.resultTop {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+
+.pct { color: var(--red); }
+
+.barTrack {
+  height: 6px;
+  background: var(--bg);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: var(--red);
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resultVoted .bar { background: var(--red); }
+.resultVoted .resultTop { color: var(--red); }
+
+.thanks {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--gray);
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}

@@ -1,0 +1,19 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# DB & uploads (keep uploads folder but not contents)
+backend/newspaper.db
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# OS
+.DS_Store
+*.log
