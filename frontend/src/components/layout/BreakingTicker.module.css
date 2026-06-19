@@ -6,8 +6,9 @@
   position: relative;
   display: flex;
   align-items: center;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(192,57,43,0.25);
 }
 
 .pulse {

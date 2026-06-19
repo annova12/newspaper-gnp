@@ -1,8 +1,9 @@
 .footer {
-  background: #1a1a1a;
+  background: #161616;
   color: #ccc;
   padding: 40px 0 20px;
   margin-top: 48px;
+  border-top: 4px solid var(--red);
 }
 
 .grid {

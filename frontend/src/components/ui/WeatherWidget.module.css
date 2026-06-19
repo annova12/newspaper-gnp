@@ -1,9 +1,10 @@
 .card {
-  background: linear-gradient(135deg, #1a6fc4 0%, #0d4a8a 100%);
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
   border-radius: var(--radius-md);
   padding: 16px;
   color: #fff;
   box-shadow: var(--shadow-md);
+  border-top: 3px solid var(--red);
 }
 
 .title {

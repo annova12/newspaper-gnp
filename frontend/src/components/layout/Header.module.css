@@ -5,14 +5,14 @@
 
 /* top utility bar */
 .topBar {
-  border-bottom: 1px solid #f0f0f0;
-  background: #fafafa;
+  background: #1e1e1e;
+  border-bottom: none;
 }
 
 .topBarInner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 5px 24px;
+  padding: 6px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,32 +21,34 @@
 .date {
   font-size: 11px;
   color: #999;
+  letter-spacing: 0.2px;
 }
 
 .actions { display: flex; gap: 8px; align-items: center; }
 
 .darkBtn {
   background: none;
-  border: 1px solid var(--border);
-  width: 30px;
-  height: 30px;
+  border: 1px solid #444;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  font-size: 15px;
+  font-size: 14px;
+  color: #bbb;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: border-color 0.2s, transform 0.2s, color 0.2s;
 }
-.darkBtn:hover { transform: scale(1.15); }
+.darkBtn:hover { transform: scale(1.15); border-color: #888; color: #fff; }
 
 .searchBtn {
   background: none;
-  border: 1px solid #ddd;
+  border: 1px solid #444;
   padding: 4px 12px;
   border-radius: 4px;
   font-size: 12px;
-  color: #666;
+  color: #aaa;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
 }
@@ -56,11 +58,13 @@
   background: var(--red);
   color: #fff;
   border: none;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 4px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
+  letter-spacing: 0.4px;
+  transition: background 0.15s;
 }
 .adminBtn:hover { background: var(--red-dark); }
 
