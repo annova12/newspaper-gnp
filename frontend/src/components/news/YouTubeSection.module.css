@@ -13,11 +13,9 @@
   font-family: var(--font-serif);
   font-size: 18px;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--black);
   border-left: 4px solid var(--red);
-  padding: 4px 12px;
-  background: linear-gradient(to right, rgba(13,31,60,0.05) 0%, transparent 55%);
-  border-radius: 0 4px 4px 0;
+  padding-left: 10px;
 }
 
 .channelLink {
