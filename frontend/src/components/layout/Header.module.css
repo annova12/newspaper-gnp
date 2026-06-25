@@ -5,7 +5,7 @@
 
 /* top utility bar */
 .topBar {
-  background: #1e1e1e;
+  background: var(--navy);
   border-bottom: none;
 }
 

@@ -1,6 +1,6 @@
 .footer {
-  background: #161616;
-  color: #ccc;
+  background: var(--navy);
+  color: #bdc8d8;
   padding: 40px 0 20px;
   margin-top: 48px;
   border-top: 4px solid var(--red);
@@ -27,7 +27,7 @@
 .desc {
   font-size: 13px;
   line-height: 1.65;
-  color: #999;
+  color: #8da0b8;
 }
 
 .heading {
@@ -48,21 +48,21 @@
 
 .links li {
   font-size: 13px;
-  color: #999;
+  color: #8da0b8;
   cursor: pointer;
   transition: color 0.15s;
   line-height: 1.4;
 }
 
-.links li:hover { color: var(--red); }
+.links li:hover { color: #fff; }
 
-.links a { color: #999; }
-.links a:hover { color: var(--red); }
+.links a { color: #8da0b8; }
+.links a:hover { color: #fff; }
 
 .bottom {
-  border-top: 1px solid #333;
+  border-top: 1px solid rgba(255,255,255,0.1);
   padding-top: 16px;
   text-align: center;
   font-size: 12px;
-  color: #666;
+  color: #5a7090;
 }
