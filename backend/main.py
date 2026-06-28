@@ -436,6 +436,49 @@ async def youtube_latest():
     except Exception as e:
         raise HTTPException(500, f"RSS error: {e}")
 
+# ── Social Share Preview ──────────────────────────────────────────────────────
+@app.get("/share/{slug}", response_class=None)
+def share_preview(slug: str):
+    from fastapi.responses import HTMLResponse
+    conn = get_db()
+    row = conn.execute("SELECT * FROM articles WHERE slug=?", (slug,)).fetchone()
+    conn.close()
+    if not row:
+        raise HTTPException(404, "Article not found")
+    article = dict(row)
+
+    frontend_url = os.environ.get("FRONTEND_URL", "https://newspaper-gnp.vercel.app")
+    redirect_url = f"{frontend_url}/?article={slug}"
+
+    thumbnail = article.get("thumbnail") or ""
+    if thumbnail and not thumbnail.startswith("http"):
+        backend_url = os.environ.get("BACKEND_URL", "")
+        thumbnail = f"{backend_url}{thumbnail}"
+
+    title = article.get("title", "Guna Plus E-Paper")
+    excerpt = article.get("excerpt", "")
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>{title} | Guna Plus E-Paper</title>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="Guna Plus E-Paper"/>
+  <meta property="og:title" content="{title}"/>
+  <meta property="og:description" content="{excerpt}"/>
+  <meta property="og:url" content="{redirect_url}"/>
+  {f'<meta property="og:image" content="{thumbnail}"/>' if thumbnail else ''}
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="{title}"/>
+  {f'<meta name="twitter:image" content="{thumbnail}"/>' if thumbnail else ''}
+  <meta http-equiv="refresh" content="0;url={redirect_url}"/>
+  <script>window.location.replace("{redirect_url}")</script>
+</head>
+<body></body>
+</html>"""
+    return HTMLResponse(content=html)
+
 # ── Categories ────────────────────────────────────────────────────────────────
 @app.get("/api/categories")
 def get_categories():

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { getImageUrl } from '../../utils/api'
+import { getImageUrl, BASE_URL } from '../../utils/api'
 import { formatDate } from '../../utils/constants'
 import styles from './ArticleView.module.css'
 
@@ -41,8 +41,8 @@ export default function ArticleView({ article, onBack }) {
   }
 
   const handleWhatsApp = () => {
-    const text = encodeURIComponent(window.location.href)
-    window.open(`https://wa.me/?text=${text}`, '_blank')
+    const shareUrl = `${BASE_URL}/share/${article.slug}`
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareUrl)}`, '_blank')
   }
 
   return (

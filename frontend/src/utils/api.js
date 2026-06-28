@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // Use relative URLs so requests go through Vite's proxy (no CORS issues in dev).
 // In production, set VITE_API_URL to the backend origin.
-const BASE_URL = import.meta.env.VITE_API_URL || ''
+export const BASE_URL = import.meta.env.VITE_API_URL || ''
 
 const client = axios.create({ baseURL: BASE_URL })
 
