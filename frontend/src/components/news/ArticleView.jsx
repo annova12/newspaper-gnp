@@ -9,6 +9,12 @@ export default function ArticleView({ article, onBack }) {
   const [copied, setCopied] = useState(false)
   const wrapRef = useRef(null)
 
+  useEffect(() => {
+    const prev = document.title
+    document.title = `${article.title} | Guna Plus E-Paper`
+    return () => { document.title = prev }
+  }, [article.title])
+
   // Reading progress bar
   useEffect(() => {
     const onScroll = () => {
