@@ -16,7 +16,7 @@ import './styles/globals.css'
 
 export default function App() {
   const { settings } = useSettings()
-  const { articles, loading } = useAllArticles()
+  const { articles, loading, refetch: refetchArticles } = useAllArticles()
   const [breaking, setBreaking] = useState([])
   const [activeCategory, setActiveCategory] = useState('होम')
   const [selectedArticle, setSelectedArticle] = useState(null)
@@ -27,21 +27,40 @@ export default function App() {
     getBreakingNews().then(setBreaking).catch(() => {})
   }, [])
 
+  // On load, check if URL has ?article=<slug> and auto-open that article
+  useEffect(() => {
+    if (loading || articles.length === 0) return
+    const params = new URLSearchParams(window.location.search)
+    const slug = params.get('article')
+    if (slug) {
+      const found = articles.find((a) => a.slug === slug)
+      if (found) setSelectedArticle(found)
+    }
+  }, [loading, articles])
+
   const handleAdminClose = () => {
     setShowAdmin(false)
     getBreakingNews().then(setBreaking).catch(() => {})
+    refetchArticles()
   }
 
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat)
     setSelectedArticle(null)
+    window.history.pushState({}, '', '/')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleArticleSelect = (article) => {
     setSelectedArticle(article)
     setShowSearch(false)
+    window.history.pushState({}, '', `?article=${article.slug}`)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleArticleBack = () => {
+    setSelectedArticle(null)
+    window.history.pushState({}, '', '/')
   }
 
   // Merge breaking news + article titles for the ticker
@@ -77,7 +96,7 @@ export default function App() {
           activeCategory={activeCategory}
           selectedArticle={selectedArticle}
           onArticleSelect={handleArticleSelect}
-          onArticleBack={() => setSelectedArticle(null)}
+          onArticleBack={handleArticleBack}
           onCategoryChange={handleCategoryChange}
           tickerItems={tickerItems}
         />
@@ -87,7 +106,7 @@ export default function App() {
 
       <ScrollToTop />
 
-      {showAdmin && <AdminPanel onClose={handleAdminClose} />}
+      {showAdmin && <AdminPanel onClose={handleAdminClose} onArticlesChanged={refetchArticles} />}
 
       {showSearch && (
         <SearchOverlay

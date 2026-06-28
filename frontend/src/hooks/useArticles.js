@@ -16,8 +16,10 @@ export function useArticles(params = {}) {
       setArticles(data.articles)
       setTotal(data.total)
     } catch {
-      setArticles(DUMMY_ARTICLES)
-      setTotal(DUMMY_ARTICLES.length)
+      // Only fall back to dummy data on the very first load (nothing to show yet).
+      // On subsequent refetches keep existing articles so admin saves aren't hidden.
+      setArticles((prev) => prev.length > 0 ? prev : DUMMY_ARTICLES)
+      setTotal((prev) => prev > 0 ? prev : DUMMY_ARTICLES.length)
     } finally {
       setLoading(false)
     }

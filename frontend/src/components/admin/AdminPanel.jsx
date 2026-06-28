@@ -12,7 +12,7 @@ const NAV_TABS = [
   { id: 'settings', label: '⚙️ Settings' },
 ]
 
-export default function AdminPanel({ onClose }) {
+export default function AdminPanel({ onClose, onArticlesChanged }) {
   const { user, logoutUser } = useAuth()
   const [tab, setTab] = useState('articles')
 
@@ -61,7 +61,7 @@ export default function AdminPanel({ onClose }) {
 
             {/* Content */}
             <div className={styles.content}>
-              {tab === 'articles' && <AdminArticles />}
+              {tab === 'articles' && <AdminArticles onArticlesChanged={onArticlesChanged} />}
               {tab === 'breaking' && <AdminBreaking />}
               {tab === 'settings' && <AdminSettings />}
             </div>

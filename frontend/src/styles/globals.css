@@ -1,20 +1,20 @@
 /* ── CSS Variables ── */
 :root {
-  --red: #C0392B;
-  --red-dark: #962d22;
-  --red-light: #e74c3c;
-  --black: #1a1a1a;
-  --gray: #4a4a4a;
-  --gray-light: #7a7a7a;
-  --border: #e4ddd5;
-  --bg: #f0ece6;
-  --white: #fefcfa;
-  --cream: #faf7f3;
+  --red: #CC0000;
+  --red-dark: #a00000;
+  --red-light: #e53333;
+  --black: #111111;
+  --gray: #444444;
+  --gray-light: #777777;
+  --border: #e0e0e0;
+  --bg: #f4f4f4;
+  --white: #ffffff;
+  --cream: #f8f8f8;
   --font-body: 'Noto Sans Devanagari', sans-serif;
   --font-serif: 'Noto Serif Devanagari', serif;
-  --shadow-sm: 0 1px 6px rgba(0,0,0,.09);
-  --shadow-md: 0 4px 20px rgba(0,0,0,.13);
-  --shadow-lg: 0 20px 60px rgba(0,0,0,.3);
+  --shadow-sm: 0 1px 6px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,.12);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.28);
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -25,10 +25,10 @@
   --black: #f0f0f0;
   --gray: #b0b0b0;
   --gray-light: #777;
-  --border: #2e2e2e;
+  --border: #2a2a2a;
   --bg: #141414;
   --white: #1e1e1e;
-  --cream: #191919;
+  --cream: #1a1a1a;
   --shadow-sm: 0 1px 6px rgba(0,0,0,.5);
   --shadow-md: 0 4px 20px rgba(0,0,0,.7);
 }

@@ -97,7 +97,7 @@
 .editBtn:hover { background: #1f618d; }
 
 .deleteBtn {
-  background: #e74c3c;
+  background: #CC0000;
   color: #fff;
   padding: 5px 10px;
   border-radius: 4px;
@@ -105,4 +105,4 @@
   font-weight: 600;
   transition: background 0.2s;
 }
-.deleteBtn:hover { background: #c0392b; }
+.deleteBtn:hover { background: #CC0000; }

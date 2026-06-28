@@ -1,12 +1,12 @@
 .nav {
-  background: #1c1c1c;
+  background: #111111;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
   border-top: 3px solid var(--red);
 }
 .nav::-webkit-scrollbar { display: none; }

@@ -6,7 +6,7 @@ import { formatDate } from '../../utils/constants'
 import ArticleForm from './ArticleForm'
 import styles from './AdminArticles.module.css'
 
-export default function AdminArticles() {
+export default function AdminArticles({ onArticlesChanged }) {
   const { articles, loading, refetch } = useAllArticles()
   const { showToast } = useToast()
   const [view, setView] = useState('list') // 'list' | 'new' | 'edit'
@@ -23,6 +23,7 @@ export default function AdminArticles() {
       await deleteArticle(article.id)
       showToast('Article deleted', 'success')
       refetch()
+      onArticlesChanged?.()
     } catch {
       showToast('Delete failed', 'error')
     }
@@ -32,6 +33,7 @@ export default function AdminArticles() {
     setView('list')
     setEditingArticle(null)
     refetch()
+    onArticlesChanged?.()
   }
 
   const handleCancel = () => {

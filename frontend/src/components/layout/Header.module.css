@@ -1,6 +1,6 @@
 .header {
-  background: #fff;
-  border-bottom: 4px solid var(--red);
+  background: #ffffff;
+  border-bottom: 3px solid var(--red);
 }
 
 /* top utility bar */
@@ -85,8 +85,8 @@
 .headlineStrip {
   overflow-x: auto;
   scrollbar-width: none;
-  background: #fff5f5;
-  border-top: 1px solid rgba(192,57,43,0.15);
+  background: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
 }
 .headlineStrip::-webkit-scrollbar { display: none; }
 

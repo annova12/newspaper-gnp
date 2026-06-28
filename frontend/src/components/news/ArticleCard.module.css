@@ -44,7 +44,7 @@
 .placeholder {
   width: 100%;
   height: 185px;
-  background: linear-gradient(135deg, #e8e2d8, #f2ede6);
+  background: linear-gradient(135deg, #e8e8e8, #f2f2f2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +56,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(192,57,43,0.85) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(204,0,0,0.85) 0%, transparent 60%);
   display: flex;
   align-items: flex-end;
   padding: 14px;

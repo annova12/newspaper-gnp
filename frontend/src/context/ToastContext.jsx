@@ -23,7 +23,7 @@ export const useToast = () => useContext(ToastContext)
 function Toast({ message, type }) {
   const colors = {
     success: '#27ae60',
-    error: '#C0392B',
+    error: '#CC0000',
     info: '#2980b9',
   }
   return (
