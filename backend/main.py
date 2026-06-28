@@ -241,7 +241,11 @@ def get_article(slug: str):
 # ── Articles (Admin) ──────────────────────────────────────────────────────────
 @app.post("/api/admin/articles")
 def create_article(article: ArticleCreate, admin=Depends(require_admin)):
-    slug = article.slug or article.title.lower().replace(" ", "-")[:60] + "-" + uuid.uuid4().hex[:6]
+    if article.slug:
+        slug = article.slug
+    else:
+        ascii_part = re.sub(r'[^\x00-\x7F]+', '', article.title.lower().replace(" ", "-")).strip("-")[:40]
+        slug = (ascii_part + "-" if len(ascii_part) > 3 else "article-") + uuid.uuid4().hex[:8]
     conn = get_db()
     try:
         conn.execute("""INSERT INTO articles (title,slug,excerpt,content,thumbnail,category,author,is_featured)

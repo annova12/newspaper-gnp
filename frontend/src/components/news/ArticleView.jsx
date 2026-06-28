@@ -35,7 +35,7 @@ export default function ArticleView({ article, onBack }) {
   }
 
   const handleWhatsApp = () => {
-    const text = encodeURIComponent(`${article.title}\n${window.location.href}`)
+    const text = encodeURIComponent(window.location.href)
     window.open(`https://wa.me/?text=${text}`, '_blank')
   }
 
