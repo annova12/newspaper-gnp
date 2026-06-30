@@ -16,7 +16,7 @@ import './styles/globals.css'
 
 export default function App() {
   const { settings } = useSettings()
-  const { articles, loading, refetch: refetchArticles } = useAllArticles()
+  const { articles, loading, error: articlesError, refetch: refetchArticles } = useAllArticles()
   const [breaking, setBreaking] = useState([])
   const [activeCategory, setActiveCategory] = useState('होम')
   const [selectedArticle, setSelectedArticle] = useState(null)
@@ -88,6 +88,18 @@ export default function App() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(270px,1fr))', gap: 16 }}>
             {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
+        </div>
+      ) : articlesError && articles.length === 0 ? (
+        <div className="container" style={{ padding: '48px 16px', textAlign: 'center' }}>
+          <p style={{ fontSize: 18, color: '#c0392b', marginBottom: 12 }}>
+            समाचार लोड नहीं हो सका। कृपया कुछ देर बाद पुनः प्रयास करें।
+          </p>
+          <button
+            onClick={refetchArticles}
+            style={{ padding: '8px 20px', background: '#c0392b', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 14 }}
+          >
+            पुनः लोड करें
+          </button>
         </div>
       ) : (
         <HomePage

@@ -21,7 +21,8 @@ from functools import lru_cache
 SECRET_KEY = os.getenv("SECRET_KEY", "your-super-secret-key-change-in-prod")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_HOURS = 24
-UPLOAD_DIR = "uploads"
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", "uploads")
+DB_PATH = os.getenv("DB_PATH", "newspaper.db")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 app = FastAPI(title="Newspaper API")
@@ -43,7 +44,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
 
 # ── Database ─────────────────────────────────────────────────────────────────
 def get_db():
-    conn = sqlite3.connect("newspaper.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -97,23 +98,9 @@ def init_db():
     c.execute("INSERT OR IGNORE INTO settings (key,value) VALUES ('site_tagline','आपका विश्वसनीय समाचार स्रोत')")
     c.execute("INSERT OR IGNORE INTO settings (key,value) VALUES ('site_city','आपका शहर, मध्य प्रदेश')")
 
-    # Sample breaking news
+    # Sample breaking news (only inserted once on first run)
     c.execute("INSERT OR IGNORE INTO breaking_news (id,text) VALUES (1,'ब्रेकिंग: विधानसभा सत्र आज से शुरू')")
     c.execute("INSERT OR IGNORE INTO breaking_news (id,text) VALUES (2,'मौसम अपडेट: आज से मानसून की शुरुआत')")
-
-    # Sample articles
-    for i, (title, cat, content) in enumerate([
-        ("स्थानीय विकास परियोजना को मिली मंजूरी", "राजनीति", "सरकार ने स्थानीय विकास के लिए 50 करोड़ रुपये की परियोजना को मंजूरी दी है।"),
-        ("खेल महोत्सव में स्थानीय खिलाड़ियों ने जीते पदक", "खेल", "जिले के खिलाड़ियों ने राज्य स्तरीय खेल प्रतियोगिता में शानदार प्रदर्शन किया।"),
-        ("स्वास्थ्य शिविर में सैकड़ों लोगों को मिला निःशुल्क उपचार", "स्वास्थ्य", "जिला अस्पताल द्वारा आयोजित स्वास्थ्य शिविर में लोगों को निःशुल्क चिकित्सा सेवाएं प्रदान की गईं।"),
-        ("व्यापार मेले में स्थानीय उत्पादों को मिली पहचान", "व्यापार", "वार्षिक व्यापार मेले में इस बार स्थानीय शिल्पकारों और व्यापारियों को विशेष प्रोत्साहन दिया गया।"),
-        ("बॉलीवुड की नई फिल्म का ट्रेलर जारी", "मनोरंजन", "बॉलीवुड की बहुप्रतीक्षित फिल्म का ट्रेलर आज जारी किया गया, सोशल मीडिया पर वायरल।"),
-        ("किसानों को मिलेगी सिंचाई योजना का लाभ", "राज्य", "राज्य सरकार ने 2000 करोड़ की सिंचाई परियोजनाओं की घोषणा की जिससे लाखों किसान लाभान्वित होंगे।"),
-    ], 1):
-        slug = f"article-{i}-{uuid.uuid4().hex[:6]}"
-        c.execute("""INSERT OR IGNORE INTO articles (id,title,slug,excerpt,content,category,author,is_featured)
-                     VALUES (?,?,?,?,?,?,?,?)""",
-                  (i, title, slug, content[:80]+"...", content, cat, "संपादक", 1 if i <= 3 else 0))
 
     conn.commit()
     conn.close()
@@ -263,17 +250,25 @@ def create_article(article: ArticleCreate, admin=Depends(require_admin)):
 @app.put("/api/admin/articles/{article_id}")
 def update_article(article_id: int, article: ArticleUpdate, admin=Depends(require_admin)):
     conn = get_db()
-    existing = conn.execute("SELECT * FROM articles WHERE id=?", (article_id,)).fetchone()
-    if not existing: raise HTTPException(404, "Article not found")
-    updates = {k: v for k, v in article.dict().items() if v is not None}
-    if "is_featured" in updates: updates["is_featured"] = int(updates["is_featured"])
-    updates["updated_at"] = datetime.utcnow().isoformat()
-    set_clause = ", ".join(f"{k}=?" for k in updates)
-    conn.execute(f"UPDATE articles SET {set_clause} WHERE id=?", list(updates.values()) + [article_id])
-    conn.commit()
-    row = conn.execute("SELECT * FROM articles WHERE id=?", (article_id,)).fetchone()
-    conn.close()
-    return dict(row)
+    try:
+        existing = conn.execute("SELECT * FROM articles WHERE id=?", (article_id,)).fetchone()
+        if not existing:
+            raise HTTPException(404, "Article not found")
+        updates = {k: v for k, v in article.dict().items() if v is not None}
+        if "is_featured" in updates:
+            updates["is_featured"] = int(updates["is_featured"])
+        updates["updated_at"] = datetime.utcnow().isoformat()
+        set_clause = ", ".join(f"{k}=?" for k in updates)
+        conn.execute(f"UPDATE articles SET {set_clause} WHERE id=?", list(updates.values()) + [article_id])
+        conn.commit()
+        row = conn.execute("SELECT * FROM articles WHERE id=?", (article_id,)).fetchone()
+        return dict(row)
+    except HTTPException:
+        raise
+    except sqlite3.IntegrityError as e:
+        raise HTTPException(400, f"Update failed: {e}")
+    finally:
+        conn.close()
 
 @app.delete("/api/admin/articles/{article_id}")
 def delete_article(article_id: int, admin=Depends(require_admin)):
@@ -283,6 +278,45 @@ def delete_article(article_id: int, admin=Depends(require_admin)):
     conn.close()
     return {"message": "Deleted"}
 
+@app.get("/api/admin/export")
+def export_articles(admin=Depends(require_admin)):
+    """Download all articles + breaking news as a JSON backup."""
+    from fastapi.responses import JSONResponse
+    conn = get_db()
+    articles = [dict(r) for r in conn.execute("SELECT * FROM articles ORDER BY id").fetchall()]
+    breaking = [dict(r) for r in conn.execute("SELECT * FROM breaking_news ORDER BY id").fetchall()]
+    conn.close()
+    return JSONResponse(
+        content={"articles": articles, "breaking_news": breaking},
+        headers={"Content-Disposition": "attachment; filename=newspaper_backup.json"},
+    )
+
+@app.post("/api/admin/import")
+def import_articles(payload: dict, admin=Depends(require_admin)):
+    """Restore articles from a previously exported JSON backup."""
+    articles = payload.get("articles", [])
+    breaking = payload.get("breaking_news", [])
+    conn = get_db()
+    try:
+        for a in articles:
+            a.pop("id", None)
+            conn.execute(
+                """INSERT OR IGNORE INTO articles
+                   (title,slug,excerpt,content,thumbnail,category,author,is_featured,published_at,updated_at)
+                   VALUES (:title,:slug,:excerpt,:content,:thumbnail,:category,:author,:is_featured,:published_at,:updated_at)""",
+                {k: a.get(k) for k in ("title","slug","excerpt","content","thumbnail","category","author","is_featured","published_at","updated_at")},
+            )
+        for b in breaking:
+            b.pop("id", None)
+            conn.execute(
+                "INSERT OR IGNORE INTO breaking_news (text,is_active,created_at) VALUES (:text,:is_active,:created_at)",
+                {k: b.get(k) for k in ("text","is_active","created_at")},
+            )
+        conn.commit()
+        return {"message": f"Imported {len(articles)} articles, {len(breaking)} breaking news items"}
+    finally:
+        conn.close()
+
 @app.post("/api/admin/upload")
 async def upload_image(file: UploadFile = File(...), admin=Depends(require_admin)):
     ext = file.filename.split(".")[-1].lower()
@@ -290,6 +324,7 @@ async def upload_image(file: UploadFile = File(...), admin=Depends(require_admin
         raise HTTPException(400, "Only image files allowed")
     filename = f"{uuid.uuid4().hex}.{ext}"
     path = os.path.join(UPLOAD_DIR, filename)
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
     async with aiofiles.open(path, "wb") as f:
         content = await file.read()
         await f.write(content)

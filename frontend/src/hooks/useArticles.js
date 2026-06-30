@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
 import { getArticles } from '../utils/api'
-import { DUMMY_ARTICLES } from '../utils/dummyData'
 
 export function useArticles(params = {}) {
   const [articles, setArticles] = useState([])
@@ -15,11 +14,10 @@ export function useArticles(params = {}) {
       const data = await getArticles(params)
       setArticles(data.articles)
       setTotal(data.total)
-    } catch {
-      // Only fall back to dummy data on the very first load (nothing to show yet).
-      // On subsequent refetches keep existing articles so admin saves aren't hidden.
-      setArticles((prev) => prev.length > 0 ? prev : DUMMY_ARTICLES)
-      setTotal((prev) => prev > 0 ? prev : DUMMY_ARTICLES.length)
+    } catch (err) {
+      setError(err)
+      // On refetch failures keep the articles already in state so edits aren't hidden.
+      // On fresh load prev is [] so articles stay empty — UI will show error state.
     } finally {
       setLoading(false)
     }
