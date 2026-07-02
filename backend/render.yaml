@@ -8,4 +8,6 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: ALLOWED_ORIGINS
-        value: https://your-vercel-app.vercel.app
+        value: https://newspaper-gnp.vercel.app
+      - key: DATABASE_URL
+        sync: false   # set this in Render dashboard to your Neon/Supabase PostgreSQL URL
